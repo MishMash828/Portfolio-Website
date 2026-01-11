@@ -1,4 +1,4 @@
-﻿// --- CUSTOM CURSOR LOGIC ---
+// --- CUSTOM CURSOR LOGIC ---
 const cursorDot = document.querySelector('.cursor-dot');
 const cursorOutline = document.querySelector('.cursor-outline');
 
@@ -35,96 +35,7 @@ if (window.matchMedia("(min-width: 768px)").matches) {
     });
 }
 
-// --- HORIZONTAL SCROLL WITH MOUSE WHEEL (Projects Page) ---
-const gallery = document.querySelector('.gallery-wrapper');
-if (gallery) {
-    gallery.addEventListener('wheel', (evt) => {
-        evt.preventDefault();
-        gallery.scrollLeft += evt.deltaY;
-    });
-}
 
-// --- PARALLAX ON SCROLL LOGIC ---
-const galleryContainer = document.querySelector('.gallery-wrapper');
-const projectImages = document.querySelectorAll('.project-card img');
-
-const updateParallax = () => {
-    // Loop through all images
-    projectImages.forEach(img => {
-        const card = img.parentElement;
-        const rect = card.getBoundingClientRect();
-        
-        // Calculate the center of the card relative to the window
-        const cardCenterX = rect.left + (rect.width / 2);
-        const windowCenterX = window.innerWidth / 2;
-        
-        // Calculate distance from center (Result is roughly -windowWidth to +windowWidth)
-        const distanceFromCenter = cardCenterX - windowCenterX;
-        
-        // Parallax Factor: How much the image moves. 
-        // 0.1 means it moves 10% of the scroll distance.
-        const speed = 0.15; 
-        
-        // Apply transform
-        // We simply shift X based on distance from center
-        img.style.transform = `translateX(${distanceFromCenter * speed}px)`;
-    });
-};
-
-// Run the function whenever we scroll
-if (galleryContainer) {
-    galleryContainer.addEventListener('scroll', () => {
-        // Use requestAnimationFrame for smooth performance
-        requestAnimationFrame(updateParallax);
-    });
-
-    // Also run it on window resize and initial load
-    window.addEventListener('resize', updateParallax);
-    updateParallax(); // Initial call to set positions
-    
-    // Connect mouse wheel to horizontal scroll (Keep your existing wheel code)
-    galleryContainer.addEventListener('wheel', (evt) => {
-        evt.preventDefault();
-        galleryContainer.scrollLeft += evt.deltaY;
-        // The scroll event listener above will catch this change automatically
-    });
-}
-
-// --- BEHANCE MODAL LOGIC ---
-const modal = document.querySelector('.modal-overlay');
-const iframe = document.querySelector('#project-iframe');
-const closeBtn = document.querySelector('.close-modal');
-const projectCards = document.querySelectorAll('.project-card');
-
-// Function to open modal
-if (projectCards.length > 0) {
-    projectCards.forEach(card => {
-        card.addEventListener('click', () => {
-            // Get the Behance URL from the data attribute
-            const embedUrl = card.getAttribute('data-embed');
-            if (embedUrl) {
-                iframe.src = embedUrl;
-                modal.classList.add('active');
-            }
-        });
-    });
-}
-
-// Function to close modal
-if (closeBtn) {
-    closeBtn.addEventListener('click', () => {
-        modal.classList.remove('active');
-        iframe.src = ""; // Stop video playback
-    });
-
-    // Close on background click
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.classList.remove('active');
-            iframe.src = "";
-        }
-    });
-}
 // --- RANDOM VIDEO START TIME ---
 const bgVideo = document.getElementById('bg-video');
 
@@ -200,3 +111,82 @@ if (sidebar && turbulence) {
         // or just let it snap back to the sine wave.
     });
 }
+// --- SLIDESHOW GALLERY LOGIC ---
+const modal = document.querySelector('.modal-overlay');
+const slideContainer = document.querySelector('.slideshow-container');
+const closeBtn = document.querySelector('.close-modal');
+const prevBtn = document.querySelector('.prev-btn');
+const nextBtn = document.querySelector('.next-btn');
+const projectCards = document.querySelectorAll('.project-card');
+
+let currentSlideIndex = 0;
+let slides = [];
+
+// 1. Open Album
+projectCards.forEach(card => {
+    card.addEventListener('click', () => {
+        // Clear previous slides
+        slideContainer.innerHTML = '';
+        slides = [];
+        currentSlideIndex = 0;
+
+        // Find hidden images in the clicked card
+        const hiddenImages = card.querySelectorAll('.album-photos img');
+        
+        if (hiddenImages.length > 0) {
+            // Clone them into the slideshow container
+            hiddenImages.forEach((img, index) => {
+                const slide = img.cloneNode();
+                slide.className = 'slide-img'; // Add styling class
+                if (index === 0) slide.classList.add('active'); // Show first one
+                slideContainer.appendChild(slide);
+                slides.push(slide);
+            });
+
+            modal.classList.add('active');
+        }
+    });
+});
+
+// 2. Navigation Functions
+const showSlide = (index) => {
+    // Remove active class from all
+    slides.forEach(slide => slide.classList.remove('active'));
+    
+    // Handle wrapping (Loop back to start/end)
+    if (index >= slides.length) currentSlideIndex = 0;
+    else if (index < 0) currentSlideIndex = slides.length - 1;
+    else currentSlideIndex = index;
+
+    // Show new slide
+    slides[currentSlideIndex].classList.add('active');
+};
+
+// Button Listeners
+if (prevBtn) prevBtn.addEventListener('click', (e) => {
+    e.stopPropagation(); // Prevent closing modal
+    showSlide(currentSlideIndex - 1);
+});
+
+if (nextBtn) nextBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showSlide(currentSlideIndex + 1);
+});
+
+// 3. Close Logic
+if (closeBtn) {
+    const closeModal = () => modal.classList.remove('active');
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        // Close if clicking outside the image
+        if (e.target === modal) closeModal();
+    });
+}
+
+// Keyboard Support (Left/Right Keys)
+document.addEventListener('keydown', (e) => {
+    if (!modal.classList.contains('active')) return;
+    if (e.key === 'ArrowLeft') showSlide(currentSlideIndex - 1);
+    if (e.key === 'ArrowRight') showSlide(currentSlideIndex + 1);
+    if (e.key === 'Escape') modal.classList.remove('active');
+});
