@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,9 +10,9 @@
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
 
-    <div class="corner-tl"></div>
-    <div class="corner-tr"></div>
-
+<video autoplay muted loop id="bg-video">
+            <source src="showreel no text.mp4" type="video/mp4">
+        </video>
     <nav class="sidebar">
         <div class="topo-bg"></div>
 
@@ -36,67 +36,51 @@
         </div>
     </nav>
 
-    <main class="main-content">
+<main class="main-content">
+        
         <div class="gallery-wrapper">
             <div class="project-track">
                 
-                <div class="project-card" data-embed="https://www.behance.net/embed/project/240801411?ilo0=1" height="316" width="404" allowfullscreen lazyload frameborder="0" allow="clipboard-write" refererPolicy="strict-origin-when-cross-origin">
-                    <img src="Frame 12.jpg" alt="Project 1">
+                <div class="project-card">
+                    <img src="https://images.unsplash.com/photo-1535295972055-1c762f4483e5?w=600" alt="Cover">
                     <div class="project-info">
-                        <div class="project-title">Elan & nVision</div>
-                        <div class="project-cat">Logo Animation</div>
+                        <div class="project-title">Cyber City</div>
+                        <div class="project-cat">12 Photos</div>
+                    </div>
+
+                    <div class="album-photos" style="display: none;">
+                        <img src="https://images.unsplash.com/photo-1535295972055-1c762f4483e5?w=1200">
+                        <img src="https://images.unsplash.com/photo-1605218427306-635ba243971c?w=1200">
+                        <img src="https://images.unsplash.com/photo-1614726365723-49cfae927846?w=1200">
                     </div>
                 </div>
 
-                <div class="project-card" data-embed="https://www.behance.net/embed/project/240801411?ilo0=1" height="316" width="404" allowfullscreen lazyload frameborder="0" allow="clipboard-write" refererPolicy="strict-origin-when-cross-origin">
-                    <img src="Frame 26.jpg" alt="Project 2">
+                <div class="project-card">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600" alt="Cover">
                     <div class="project-info">
-                        <div class="project-title">ANOMALY | ECell 2025</div>
-                        <div class="project-cat">Brand Animation</div>
+                        <div class="project-title">Neon Racer</div>
+                        <div class="project-cat">5 Photos</div>
+                    </div>
+
+                    <div class="album-photos" style="display: none;">
+                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200">
+                        <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1200">
+                        <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=1200">
                     </div>
                 </div>
 
-                <div class="project-card" data-embed="https://www.behance.net/embed/project/240801411?ilo0=1" height="316" width="404" allowfullscreen lazyload frameborder="0" allow="clipboard-write" refererPolicy="strict-origin-when-cross-origin">
-                    <img src="Frame 29.jpg" alt="Project 3">
-                    <div class="project-info">
-                        <div class="project-title">Pontiac Fiero GT</div>
-                        <div class="project-cat">Automobile Concept Design</div>
-                    </div>
                 </div>
-
-                <div class="project-card" data-embed="https://www.behance.net/embed/project/240801411?ilo0=1" >
-                    <img src="Frame 46.png" alt="Project 4">
-                    <div class="project-info">
-                        <div class="project-title">Honda NSX</div>
-                        <div class="project-cat">Automobile Concept Design</div>
-                    </div>
-                </div>
-
-                <div class="project-card" data-embed="https://www.behance.net/embed/project/240801411?ilo0=1" >
-                    <img src="Frame 51.jpg" alt="Project 4">
-                    <div class="project-info">
-                        <div class="project-title">Inter-IIT Sports Meet 2025</div>
-                        <div class="project-cat">Motion Graphics</div>
-                    </div>
-                </div>
-
-                <div class="project-card" data-embed="https://www.behance.net/embed/project/240801411?ilo0=1" >
-                    <img src="Frame 9.jpg" alt="Project 4">
-                    <div class="project-info">
-                        <div class="project-title">Space Odyssey</div>
-                        <div class="project-cat">Brand Animation</div>
-                    </div>
-                </div>
-
-            </div>
         </div>
 
         <div class="modal-overlay">
-            <div class="modal-content">
-                <div class="close-modal">X</div>
-                <iframe id="project-iframe" src="" allowfullscreen></iframe>
-            </div>
+            <div class="close-modal">X</div>
+            
+            <div class="prev-btn">&#10094;</div>
+            <div class="slideshow-container">
+                </div>
+            <div class="next-btn">&#10095;</div>
         </div>
+
     </main>
 
     <script src="script.js"></script>
