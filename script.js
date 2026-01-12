@@ -111,7 +111,7 @@ if (sidebar && turbulence) {
         // or just let it snap back to the sine wave.
     });
 }
-// --- SLIDESHOW GALLERY LOGIC ---
+// --- SLIDESHOW GALLERY LOGIC (Images + Video) ---
 const modal = document.querySelector('.modal-overlay');
 const slideContainer = document.querySelector('.slideshow-container');
 const closeBtn = document.querySelector('.close-modal');
@@ -125,20 +125,32 @@ let slides = [];
 // 1. Open Album
 projectCards.forEach(card => {
     card.addEventListener('click', () => {
-        // Clear previous slides
+        // Reset state
         slideContainer.innerHTML = '';
         slides = [];
         currentSlideIndex = 0;
 
-        // Find hidden images in the clicked card
-        const hiddenImages = card.querySelectorAll('.album-photos img');
+        // Find ALL hidden media (img AND video)
+        // The '> *' selects direct children regardless of tag type
+        const hiddenMedia = card.querySelectorAll('.album-photos > *');
         
-        if (hiddenImages.length > 0) {
-            // Clone them into the slideshow container
-            hiddenImages.forEach((img, index) => {
-                const slide = img.cloneNode();
-                slide.className = 'slide-img'; // Add styling class
-                if (index === 0) slide.classList.add('active'); // Show first one
+        if (hiddenMedia.length > 0) {
+            hiddenMedia.forEach((item, index) => {
+                // Clone the element (true = deep clone)
+                const slide = item.cloneNode(true);
+                
+                // Assign common class for styling
+                slide.classList.add('slide-media');
+                
+                // If it's a video, ensure controls are on
+                if (slide.tagName === 'VIDEO') {
+                    slide.controls = true; 
+                    slide.autoplay = false; // Don't auto play all of them
+                }
+
+                // Show first slide
+                if (index === 0) slide.classList.add('active'); 
+                
                 slideContainer.appendChild(slide);
                 slides.push(slide);
             });
@@ -148,23 +160,33 @@ projectCards.forEach(card => {
     });
 });
 
-// 2. Navigation Functions
+// 2. Navigation
 const showSlide = (index) => {
-    // Remove active class from all
+    // A. Pause current slide if it is a video
+    const currentSlide = slides[currentSlideIndex];
+    if (currentSlide && currentSlide.tagName === 'VIDEO') {
+        currentSlide.pause();
+    }
+
+    // Remove active class
     slides.forEach(slide => slide.classList.remove('active'));
     
-    // Handle wrapping (Loop back to start/end)
+    // Handle wrapping
     if (index >= slides.length) currentSlideIndex = 0;
     else if (index < 0) currentSlideIndex = slides.length - 1;
     else currentSlideIndex = index;
 
-    // Show new slide
-    slides[currentSlideIndex].classList.add('active');
+    // B. Show new slide
+    const newSlide = slides[currentSlideIndex];
+    newSlide.classList.add('active');
+    
+    // Optional: Auto-play video when navigated to?
+    // if (newSlide.tagName === 'VIDEO') newSlide.play();
 };
 
-// Button Listeners
+// Event Listeners
 if (prevBtn) prevBtn.addEventListener('click', (e) => {
-    e.stopPropagation(); // Prevent closing modal
+    e.stopPropagation();
     showSlide(currentSlideIndex - 1);
 });
 
@@ -173,20 +195,26 @@ if (nextBtn) nextBtn.addEventListener('click', (e) => {
     showSlide(currentSlideIndex + 1);
 });
 
-// 3. Close Logic
+// Close Logic
+const closeModal = () => {
+    // Pause any playing videos before closing
+    slides.forEach(slide => {
+        if (slide.tagName === 'VIDEO') slide.pause();
+    });
+    modal.classList.remove('active');
+};
+
 if (closeBtn) {
-    const closeModal = () => modal.classList.remove('active');
     closeBtn.addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => {
-        // Close if clicking outside the image
         if (e.target === modal) closeModal();
     });
 }
 
-// Keyboard Support (Left/Right Keys)
+// Keyboard Support
 document.addEventListener('keydown', (e) => {
     if (!modal.classList.contains('active')) return;
     if (e.key === 'ArrowLeft') showSlide(currentSlideIndex - 1);
     if (e.key === 'ArrowRight') showSlide(currentSlideIndex + 1);
-    if (e.key === 'Escape') modal.classList.remove('active');
+    if (e.key === 'Escape') closeModal();
 });
