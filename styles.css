@@ -52,7 +52,7 @@ body {
     text-transform: uppercase; color: #bebebe; flex-grow: 1;
     display: flex; align-items: center; justify-content: left; pointer-events: none; margin-bottom: 10%; margin-right: 0%;
 }
-.nav-menu { display: flex; flex-direction: column; gap: 0px; background: #050505; }
+.nav-menu { display: flex; flex-direction: column; gap: 0px; background: #05050583; }
 .nav-link {
     text-decoration: none; color: #d8d8d8; font-weight: bold; text-transform: uppercase;
     font-size: 1.2rem; padding: 10px 15px; border: 1px solid #ffffff; 
@@ -60,7 +60,7 @@ body {
     
 }
 .nav-link:hover {
-    background-color: rgb(129, 129, 129); color: black; border-color: white;
+    background-color: rgb(168, 168, 168); color: black; border-color: white; font-size: 1.6rem;
 }
 
 .nav-link.active {
@@ -84,8 +84,9 @@ body {
     padding: 15px 30px; font-weight: bold; font-size: 1.1rem;
     text-transform: uppercase; letter-spacing: 2px;
     transition: 0.3s;
+    text-decoration: none;
 }
-.cta-btn:hover { background: white; color: black; }
+.cta-btn:hover { background: white; color: black; font-size: 1.6rem;}
 
 /* --- WINDOW BASE STYLE --- */
 .window-container {
@@ -100,7 +101,7 @@ body {
     font-size: 1.1rem;
 }
 .window-controls span {
-    display: inline-block; width: 12px; height: 12px; border: 2px solid rgb(0, 0, 0); margin-left: 5px;
+    display: inline-block; width: 24px; height: 24px; border: 2px solid rgb(0, 0, 0); margin-left: 5px; text-align: center; align-items: center; border-style: ridge;
 }
 .window-body { padding: 30px; overflow-y: auto; flex-grow: 1; }
 
@@ -125,7 +126,7 @@ body {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     border: 2px solid rgb(255, 255, 255);
-    font-family: 'Courier New', monospace;
+    font-family: 'Montserrat', monospace;
     font-weight: bold;
 }
 .spec-item {
@@ -182,7 +183,7 @@ body {
 .contact-input-look {
     border: 2px solid white;
     padding: 15px;
-    font-family: 'Courier New', monospace;
+    font-family: 'Montserrat', monospace;
     font-weight: bold;
     background: black;
     font-size: 1.1rem;
@@ -283,7 +284,7 @@ body {
     width: 100%;
     height: 100%;
     overflow-y: auto; /* Scroll vertical */
-    padding: 40px;
+    padding: 5%;
 }
 
 .project-track {
@@ -291,12 +292,13 @@ body {
     flex-wrap: wrap; /* Allow wrapping to next line */
     gap: 30px;
     justify-content: center;
-    padding-bottom: 100px;
+    align-items: center;
+
 }
 
 .project-card {
-    width: 400px;       /* Fixed width for album look */
-    height: 300px;      /* Standard 4:3 ratio */
+    width: 600px;       /* Fixed width for album look */
+    height: 450px;      /* Standard 4:3 ratio */
     position: relative;
     border: 1px solid #333;
     overflow: hidden;
@@ -308,7 +310,7 @@ body {
 .project-card:hover {
     transform: translateY(-5px);
     border-color: white;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+
 }
 
 .project-card img {
@@ -357,19 +359,18 @@ body {
 }
 
 /* The Main Image in Slideshow */
-.slide-img {
+.slide-media {
     max-width: 100%;
     max-height: 100%;
     border: 2px solid white;
-    box-shadow: 0 0 50px rgba(255,255,255,0.1);
     display: none; /* Hidden unless active */
 }
-.slide-img.active { display: block; animation: fadeIn 0.5s; }
+.slide-media.active { display: block; animation: fadeIn 0.5s; }
 
 /* Navigation Buttons */
 .prev-btn, .next-btn {
     position: absolute;
-    top: 50%;
+    bottom: 2%;
     transform: translateY(-50%);
     background: rgba(0,0,0,0.5);
     color: white;
@@ -379,11 +380,11 @@ body {
     font-size: 1.5rem; cursor: pointer;
     transition: 0.2s;
     user-select: none;
-    z-index: 2100;
+    z-index: 5000;
 }
 .prev-btn:hover, .next-btn:hover { background: white; color: black; }
-.prev-btn { left: -70px; }
-.next-btn { right: -70px; }
+.prev-btn { left: 45%; }
+.next-btn { right: 45%; }
 
 /* Close Button */
 .close-modal {
@@ -397,9 +398,10 @@ body {
 }
 
 /* Mobile Tweaks */
-@media (max-width: 768px) {
+@media (max-width: px) {
     .project-card { width: 100%; }
     .prev-btn { left: 10px; }
     .next-btn { right: 10px; }
     .slideshow-container { width: 100%; }
 }
+
